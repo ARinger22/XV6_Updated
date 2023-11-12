@@ -143,21 +143,16 @@ getcmd(char *buf, int nbuf)
 
 char cmdFromHistory[INPUT_BUF]; 
 void printHistory(){
-  // int i, count = 0;
-  printf(1, "%s\n", "here is your history");
+  int count = 0;
   for (int i = 0; i < MAX_HISTORY; i++)
   {
-    // if (history(cmdFromHistory, MAX_HISTORY - i - 1) == 0)
-    // {
-    //   count++;
-    //   if (count < 10)
-    //     printf(1, " %d: %s\n", count, cmdFromHistory);
-    //   else
-    //     printf(1, "%d: %s\n", count, cmdFromHistory);
-    // }
-    if (history_buffer.bufferArr[i][0] != '\0')
+    if (history(cmdFromHistory, MAX_HISTORY - i - 1) == 0)
     {
-      printf(1, "%s\n", history_buffer.bufferArr[i]);
+      count++;
+      if (count < 10)
+        printf(1, " %s: %d\n", cmdFromHistory, count);
+      else
+        printf(1, "%s: %d\n", cmdFromHistory, count);
     }
   }
 }

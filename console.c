@@ -179,12 +179,6 @@ consputc(int c)
   cgaputc(c);
 }
 
-// history command starts from here
-char oldBuf[INPUT_BUF];
-uint oldLength;
-char buf2[INPUT_BUF];
-
-
 #define INPUT_BUF 128
 struct {
   char buf[INPUT_BUF];
@@ -192,6 +186,11 @@ struct {
   uint w;  // Write index
   uint e;  // Edit index
 } input;
+
+// history command starts from here
+char oldBuf[INPUT_BUF];
+uint oldLength;
+char buf2[INPUT_BUF];
 
 #define C(x)  ((x)-'@')  // Control-x
 
@@ -264,6 +263,7 @@ consoleintr(int (*getc)(void))
         consputc(c);
         if (c == '\n' || c == C('D') || input.e == input.r + INPUT_BUF)
         {
+          saveCommand();
           input.w = input.e;
           wakeup(&input.r);
         }
@@ -290,16 +290,18 @@ void saveCommand() // savecommandinhistory
   for (uint i = 0; i < len; i++){
     history_buffer.bufferArr[history_buffer.lastIndex][i] = input.buf[(input.r + i) % INPUT_BUF];
   }
+  // cprintf("%d - History copied to the buffer properly", 0);
 }
 
 int getFromHistory(char *buffer, int historyId)
 {
   // historyId != index of command in history_buffer.bufferArr
-  cprintf("yes in getfromhistory");
-  if (historyId < 0 || historyId > MAX_HISTORY - 1)
+  if (historyId < 0 || historyId > MAX_HISTORY - 1){
     return 2;
-  if (historyId >= history_buffer.memCommand)
+  }
+  if (historyId >= history_buffer.memCommand){
     return 1;
+  }
   memset(buffer, '\0', INPUT_BUF);
   int tempIndex = (history_buffer.lastIndex + historyId) % MAX_HISTORY;
   memmove(buffer, history_buffer.bufferArr[tempIndex], history_buffer.lengthsArr[tempIndex]);
@@ -410,6 +412,8 @@ consoleinit(void)
   devsw[CONSOLE].write = consolewrite;
   devsw[CONSOLE].read = consoleread;
   cons.locking = 1;
+  history_buffer.memCommand = 0;
+  history_buffer.lastIndex = 0;
   ioapicenable(IRQ_KBD, 0);
 }
 

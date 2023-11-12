@@ -181,7 +181,7 @@ UPROGS=\
 	_usertests\
 	_wc\
 	_zombie\
-	_get_history\
+	_history\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)

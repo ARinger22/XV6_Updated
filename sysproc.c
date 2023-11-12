@@ -90,10 +90,11 @@ sys_uptime(void)
   return xticks;
 }
 
-int sys_get_history(char *buffer, int historyId)
+int sys_history(char *buffer, int historyId)
 {
   if (argptr(0, &buffer, sizeof(char *)) < 0 || argint(1, &historyId) < 0)
     return -1;
 
   return getFromHistory(buffer, historyId); // getcommandfromhistory
 }
+
