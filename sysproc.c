@@ -97,4 +97,7 @@ int sys_history(char *buffer, int historyId)
 
   return getFromHistory(buffer, historyId); // getcommandfromhistory
 }
-
+int sys_cps(void)
+{
+  return cps();
+}
