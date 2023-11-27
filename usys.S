@@ -31,4 +31,4 @@ SYSCALL(sleep)
 SYSCALL(uptime)
 SYSCALL(history)
 SYSCALL(cps)
-
+SYSCALL(wait2)
