@@ -104,6 +104,7 @@ extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_history(void);
 extern int sys_cps(void);
+extern int sys_wait2(void);
 
 // static char *syscall_names[] = {
 //   [SYS_fork]    "fork",
@@ -128,7 +129,8 @@ extern int sys_cps(void);
 //   [SYS_mkdir]   "mkdir",
 //   [SYS_close]   "close",
 //   [SYS_history] "history", 
-//   [SYS_cps] "cprocinfo", 
+//   [SYS_cps] "cprocinfo",
+//   [SYS_wait2] "waittime", 
 // };
 
 
@@ -155,7 +157,8 @@ static int (*syscalls[])(void) = {
   [SYS_mkdir]   sys_mkdir,
   [SYS_close]   sys_close,
   [SYS_history] sys_history, 
-  [SYS_cps] sys_cps,    
+  [SYS_cps] sys_cps,
+  [SYS_wait2] sys_wait2,    
 };
 
 void
